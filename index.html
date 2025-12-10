@@ -2,873 +2,297 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مهني مربوط - ليث لخدمات الجوازات</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>خدمة الجوازات - ليث</title>
+    <!-- ربط ملف Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#1a3a52">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1a3a52 0%, #2d5a7b 100%);
+            --secondary-gradient: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            --whatsapp-color: #25D366;
+            --bg-color: #f0f2f5;
         }
 
-        :root {
-            --primary-blue: #1a4f8c;
-            --secondary-blue: #2d7dd2;
-            --accent-gold: #e8b839;
-            --light-blue: #e8f4ff;
-            --dark-blue: #0a2a5a;
-            --success-green: #28a745;
-            --error-red: #dc3545;
-            --text-dark: #333;
-            --text-light: #fff;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background: linear-gradient(135deg, var(--light-blue) 0%, #d1e7ff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a3a52 0%, #0f2636 100%);
+            color: #333;
             min-height: 100vh;
-            padding: 20px;
-            color: var(--text-dark);
-            position: relative;
+            padding: 15px;
+            direction: rtl;
             overflow-x: hidden;
         }
 
-        /* الخلفية المتحركة للطائرات والجوازات */
-        .background-animations {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
+        .container { max-width: 500px; margin: 0 auto; padding-bottom: 80px; }
+
+        /* Header */
+        .header { text-align: center; margin-bottom: 25px; color: white; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .header-icons { font-size: 2.5rem; animation: float 3s ease-in-out infinite; display: inline-block; }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .wa-btn-top {
+            background: white; color: var(--whatsapp-color);
+            padding: 8px 20px; border-radius: 50px; text-decoration: none;
+            font-weight: bold; display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-top: 10px;
         }
 
-        .animation-icon {
-            position: absolute;
-            opacity: 0.1;
-            font-size: 2.5rem;
-            color: var(--primary-blue);
-            z-index: -1;
-        }
-
-        /* الهيدر */
-        .header {
-            background: linear-gradient(to right, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        /* Form Card */
+        .form-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             position: relative;
             overflow: hidden;
-            border: 3px solid var(--accent-gold);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(232, 184, 57, 0.1) 1px, transparent 1px);
-            background-size: 30px 30px;
-            animation: float 20s linear infinite;
-            z-index: 0;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: var(--accent-gold);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            letter-spacing: 1px;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 15px;
-        }
-
-        /* زر الواتساب الرئيسي */
-        .whatsapp-main-btn {
-            display: block;
-            background-color: #25D366;
-            color: white;
-            text-decoration: none;
-            padding: 16px 30px;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 20px auto 30px;
-            width: fit-content;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-            border: none;
-            cursor: pointer;
-        }
-
-        .whatsapp-main-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.6);
-            background-color: #20b858;
-        }
-
-        .whatsapp-main-btn i {
-            margin-left: 10px;
-            font-size: 1.5rem;
-        }
-
-        /* نموذج البيانات */
-        .form-container {
-            background-color: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            max-width: 800px;
-            margin-right: auto;
-            margin-left: auto;
-            background-image: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 20px,
-                rgba(26, 79, 140, 0.03) 20px,
-                rgba(26, 79, 140, 0.03) 40px
-            );
-        }
-
-        /* العلامة المائية الجديدة بشكل شرائط متكررة */
-        .watermark-stripes {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(26, 79, 140, 0.02) 10px,
-                rgba(26, 79, 140, 0.02) 20px
-            );
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .watermark-text {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background-image: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 40px,
-                rgba(232, 184, 57, 0.03) 40px,
-                rgba(232, 184, 57, 0.03) 80px
-            );
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .watermark-text::before {
-            content: "ليث لجميع الخدمات الالكترونية";
-            position: absolute;
-            top: 50%;
-            left: 50%;
+        .watermark {
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%) rotate(-30deg);
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: rgba(26, 79, 140, 0.05);
-            white-space: nowrap;
-            z-index: 0;
-            width: 200%;
-            text-align: center;
+            font-size: 4rem; font-weight: 900;
+            color: rgba(26, 58, 82, 0.08); /* لون ليث شفاف جداً */
+            pointer-events: none; white-space: nowrap; z-index: 0;
         }
 
-        .form-content {
-            position: relative;
-            z-index: 2;
+        .input-group { margin-bottom: 15px; position: relative; z-index: 2; }
+        .input-group label {
+            display: block; text-align: center; color: #1a3a52;
+            font-weight: 700; margin-bottom: 5px; font-size: 0.95rem;
+        }
+        
+        .form-control {
+            width: 100%; padding: 12px; border: 2px solid #e1e5e9;
+            border-radius: 12px; font-size: 1rem; text-align: center;
+            background: rgba(255,255,255,0.8); transition: all 0.3s;
+        }
+        .form-control:focus {
+            border-color: #2d5a7b; outline: none; box-shadow: 0 0 0 4px rgba(45, 90, 123, 0.1);
         }
 
-        .form-title {
-            text-align: center;
-            color: var(--primary-blue);
-            margin-bottom: 30px;
-            font-size: 1.8rem;
-            position: relative;
-            padding-bottom: 15px;
+        /* Stamp */
+        .stamp-box {
+            border: 3px double #c0392b; color: #c0392b;
+            padding: 10px; border-radius: 8px; text-align: center;
+            margin-top: 20px; transform: rotate(-5deg);
+            display: none; animation: stampPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255,255,255,0.9);
+            position: absolute; width: 80%; z-index: 10;
         }
+        @keyframes stampPop { from { transform: scale(0.5) rotate(0); opacity: 0; } to { transform: scale(1) rotate(-5deg); opacity: 1; } }
 
-        .form-title::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            right: 50%;
-            transform: translateX(50%);
-            width: 100px;
-            height: 3px;
-            background-color: var(--accent-gold);
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .input-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-blue);
-            font-size: 1.1rem;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px 10px;
-            border-radius: 5px;
-            width: fit-content;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            background-color: rgba(255, 255, 255, 0.9);
-            text-align: right;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: var(--secondary-blue);
-            background-color: white;
-            box-shadow: 0 0 0 3px rgba(45, 125, 210, 0.2);
-        }
-
-        /* ختم الاعتماد المعدل */
-        .approval-stamp {
-            position: absolute;
-            border: 4px solid var(--error-red);
-            border-radius: 10px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.98);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 10;
-            box-shadow: 0 10px 30px rgba(220, 53, 69, 0.3);
-            max-width: 320px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-5deg);
-        }
-
-        .stamp-title {
-            color: var(--error-red);
-            font-weight: 800;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .stamp-date {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-dark);
-            font-size: 1rem;
-            width: 100%;
-        }
-
-        .stamp-note {
-            color: var(--error-red);
-            font-size: 0.9rem;
-            margin-top: 15px;
-            font-weight: 600;
-            padding: 10px;
-            border-top: 1px dashed #dc3545;
-            width: 100%;
-        }
-
-        /* الأزرار */
-        .buttons-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-            max-width: 800px;
-            margin-right: auto;
-            margin-left: auto;
-        }
-
+        /* Actions */
+        .actions { display: grid; gap: 10px; margin-top: 25px; position: relative; z-index: 5; }
         .btn {
-            padding: 18px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border: none; padding: 14px; border-radius: 12px;
+            font-size: 1rem; font-weight: bold; cursor: pointer; color: white;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: transform 0.2s;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-confirm { background: var(--primary-gradient); }
+        .btn-save { background: #34495e; display: none; }
+        .btn-share { background: var(--whatsapp-color); display: none; }
+
+        /* Install App Button */
+        .install-prompt {
+            position: fixed; bottom: 20px; left: 20px; right: 20px;
+            background: #212121; color: white; padding: 15px;
+            border-radius: 15px; display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 999;
+            transform: translateY(150%); transition: transform 0.4s;
+        }
+        .install-prompt.show { transform: translateY(0); }
+        .install-btn {
+            background: var(--whatsapp-color); color: white; border: none;
+            padding: 8px 15px; border-radius: 8px; font-weight: bold;
         }
 
-        .btn i {
-            margin-left: 10px;
-            font-size: 1.3rem;
-        }
+        /* Footer */
+        footer { margin-top: 40px; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.85rem; }
+        footer a { color: var(--whatsapp-color); text-decoration: none; }
 
-        .btn-approve {
-            background-color: var(--primary-blue);
-            color: white;
-        }
-
-        .btn-approve:hover {
-            background-color: var(--dark-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 7px 14px rgba(26, 79, 140, 0.3);
-        }
-
-        .btn-capture {
-            background-color: var(--secondary-blue);
-            color: white;
-            display: none;
-        }
-
-        .btn-capture:hover {
-            background-color: #1c6bb8;
-            transform: translateY(-3px);
-            box-shadow: 0 7px 14px rgba(45, 125, 210, 0.3);
-        }
-
-        .btn-share {
-            background-color: #25D366;
-            color: white;
-            display: none;
-        }
-
-        .btn-share:hover {
-            background-color: #20b858;
-            transform: translateY(-3px);
-            box-shadow: 0 7px 14px rgba(37, 211, 102, 0.3);
-        }
-
-        /* الفوتر */
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(26, 79, 140, 0.2);
-            color: var(--primary-blue);
-            font-size: 0.9rem;
-        }
-
-        .copyright {
-            margin: 10px 0;
-            font-weight: 600;
-        }
-
-        .whatsapp-contact {
-            display: inline-block;
-            background-color: #25D366;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            margin-top: 15px;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .whatsapp-contact:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-            background-color: #20b858;
-        }
-
-        /* التحريك */
-        @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-100px, -100px) rotate(360deg); }
-        }
-
-        /* إخفاء الحدود عند التقاط الصورة */
-        .capture-mode .input-field {
-            border: none !important;
-            background-color: transparent !important;
-            padding: 10px 0 !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-        }
-        
-        .capture-mode .input-label {
-            background-color: transparent !important;
-            padding: 0 !important;
-            margin-bottom: 5px !important;
-        }
-        
-        .capture-mode .form-container {
-            box-shadow: none !important;
-            background-color: white !important;
-            background-image: none !important;
-        }
-        
-        .capture-mode .watermark-stripes {
-            opacity: 0.3 !important;
-        }
-        
-        .capture-mode .watermark-text {
-            opacity: 0.4 !important;
-        }
-        
-        .capture-mode .watermark-text::before {
-            opacity: 0.15 !important;
-            color: rgba(26, 79, 140, 0.15) !important;
-        }
-        
-        .capture-mode .additional-watermark {
-            display: block !important;
-        }
-        
-        .capture-mode .approval-stamp {
-            display: flex !important;
-            opacity: 1 !important;
-            z-index: 100 !important;
-        }
-        
-        /* العلامات المائية الإضافية (20 علامة) */
-        .additional-watermark {
-            display: none;
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        /* 20 علامة مائية */
-        .watermark-1, .watermark-2, .watermark-3, 
-        .watermark-4, .watermark-5, .watermark-6,
-        .watermark-7, .watermark-8, .watermark-9,
-        .watermark-10, .watermark-11, .watermark-12,
-        .watermark-13, .watermark-14, .watermark-15,
-        .watermark-16, .watermark-17, .watermark-18,
-        .watermark-19, .watermark-20 {
-            position: absolute;
-            font-weight: 900;
-            white-space: nowrap;
-            color: rgba(26, 79, 140, 0.15);
-        }
-        
-        /* تكبير وتوضيح العلامات المائية */
-        .watermark-1 { top: 5%; right: 5%; font-size: 2.5rem; transform: rotate(15deg); }
-        .watermark-2 { top: 15%; left: 5%; font-size: 2.8rem; transform: rotate(-20deg); }
-        .watermark-3 { top: 25%; right: 15%; font-size: 2.6rem; transform: rotate(10deg); }
-        .watermark-4 { top: 35%; left: 15%; font-size: 2.7rem; transform: rotate(-15deg); }
-        .watermark-5 { top: 45%; right: 25%; font-size: 2.9rem; transform: rotate(5deg); }
-        .watermark-6 { top: 55%; left: 25%; font-size: 2.5rem; transform: rotate(-10deg); }
-        .watermark-7 { top: 65%; right: 35%; font-size: 2.8rem; transform: rotate(20deg); }
-        .watermark-8 { top: 75%; left: 35%; font-size: 2.6rem; transform: rotate(-5deg); }
-        .watermark-9 { top: 85%; right: 45%; font-size: 2.7rem; transform: rotate(12deg); }
-        .watermark-10 { top: 10%; left: 45%; font-size: 2.9rem; transform: rotate(-18deg); }
-        
-        .watermark-11 { bottom: 10%; right: 10%; font-size: 2.8rem; transform: rotate(25deg); }
-        .watermark-12 { bottom: 20%; left: 10%; font-size: 2.6rem; transform: rotate(-12deg); }
-        .watermark-13 { bottom: 30%; right: 20%; font-size: 2.7rem; transform: rotate(8deg); }
-        .watermark-14 { bottom: 40%; left: 20%; font-size: 2.9rem; transform: rotate(-22deg); }
-        .watermark-15 { bottom: 50%; right: 30%; font-size: 2.5rem; transform: rotate(18deg); }
-        .watermark-16 { bottom: 60%; left: 30%; font-size: 2.8rem; transform: rotate(-8deg); }
-        .watermark-17 { bottom: 70%; right: 40%; font-size: 2.6rem; transform: rotate(14deg); }
-        .watermark-18 { bottom: 80%; left: 40%; font-size: 2.7rem; transform: rotate(-25deg); }
-        .watermark-19 { top: 50%; left: 50%; font-size: 3rem; transform: translate(-50%, -50%) rotate(30deg); }
-        .watermark-20 { top: 30%; left: 60%; font-size: 2.9rem; transform: rotate(-30deg); }
-        
-        /* التجاوب مع الشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 2.2rem;
-            }
-            
-            .form-container {
-                padding: 20px;
-            }
-            
-            .watermark-text::before {
-                font-size: 2.5rem;
-            }
-            
-            .btn {
-                padding: 15px;
-                font-size: 1.1rem;
-            }
-            
-            .animation-icon {
-                font-size: 1.8rem;
-            }
-            
-            .approval-stamp {
-                max-width: 280px;
-                padding: 15px;
-            }
-            
-            .stamp-title {
-                font-size: 1.5rem;
-            }
-            
-            /* تصغير العلامات المائية للشاشات الصغيرة */
-            .watermark-1, .watermark-2, .watermark-3, 
-            .watermark-4, .watermark-5, .watermark-6,
-            .watermark-7, .watermark-8, .watermark-9,
-            .watermark-10, .watermark-11, .watermark-12,
-            .watermark-13, .watermark-14, .watermark-15,
-            .watermark-16, .watermark-17, .watermark-18,
-            .watermark-19, .watermark-20 {
-                font-size: 1.5rem;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- الخلفية المتحركة -->
-    <div class="background-animations" id="animationsContainer"></div>
 
-    <!-- الهيدر -->
-    <header class="header">
-        <div class="header-content">
-            <h1 class="logo">✈ ليث 🛫</h1>
-            <p class="tagline">لجميع الخدمات الالكترونية</p>
-        </div>
-    </header>
-
-    <!-- زر الواتساب الرئيسي -->
-    <a href="https://wa.me/+963996250014" target="_blank" class="whatsapp-main-btn">
-        <i class="fab fa-whatsapp"></i> تواصل معنا على واتساب
-    </a>
-
-    <!-- نموذج البيانات -->
-    <div class="form-container" id="formContainer">
-        <!-- العلامة المائية الجديدة -->
-        <div class="watermark-stripes"></div>
-        <div class="watermark-text"></div>
-        
-        <!-- العلامات المائية الإضافية (تظهر فقط عند حفظ الصورة) - 20 علامة -->
-        <div class="additional-watermark" id="additionalWatermark">
-            <div class="watermark-1">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-2">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-3">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-4">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-5">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-6">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-7">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-8">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-9">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-10">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-11">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-12">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-13">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-14">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-15">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-16">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-17">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-18">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-19">ليث لجميع الخدمات الالكترونية</div>
-            <div class="watermark-20">ليث لجميع الخدمات الالكترونية</div>
-        </div>
-        
-        <!-- ختم الاعتماد المعدل (في منتصف الصفحة) -->
-        <div class="approval-stamp" id="approvalStamp">
-            <div class="stamp-title">تم الاعتماد</div>
-            <div class="stamp-date" id="dayName"></div>
-            <div class="stamp-date" id="gregorianDate"></div>
-            <div style="margin: 10px 0; font-weight: 600; color: var(--primary-blue);">تم الاعتماد إن شاء الله</div>
-            <div class="stamp-note">تأكد من البيانات نحن غير مسؤولين عن الخطأ</div>
-        </div>
-        
-        <div class="form-content">
-            <h2 class="form-title"> بيانات المهني المربوط</h2>
-            
-            <div class="input-group">
-                <label class="input-label">رقم هوية الكفيل</label>
-                <input type="text" class="input-field" id="sponsorId" placeholder="أدخل رقم هوية الكفيل (أرقام فقط)">
-            </div>
-            
-            <div class="input-group">
-                <label class="input-label">رقم الـ 700</label>
-                <input type="text" class="input-field" id="number700" placeholder="أدخل رقم الـ 700 (أرقام فقط)">
-            </div>
-            
-            <div class="input-group">
-                <label class="input-label">رقم الإقامة</label>
-                <input type="text" class="input-field" id="residenceNumber" placeholder="أدخل رقم الإقامة (أرقام فقط)">
-            </div>
-            
-            <div class="input-group">
-                <label class="input-label">رقم النسخة</label>
-                <input type="text" class="input-field" id="copyNumber" placeholder="أدخل رقم النسخة (أرقام فقط)">
-            </div>
-            
-            <div class="input-group">
-                <label class="input-label">ملاحظات</label>
-                <textarea class="input-field" id="notes" rows="3" placeholder="أدخل أي ملاحظات إضافية"></textarea>
-            </div>
-        </div>
-    </div>
-
-    <!-- أزرار التحكم -->
-    <div class="buttons-container">
-        <button class="btn btn-approve" id="approveBtn">
-            <i class="fas fa-stamp"></i> تم الاعتماد
-        </button>
-        
-        <button class="btn btn-capture" id="captureBtn">
-            <i class="fas fa-camera"></i> حفظ صورة النموذج
-        </button>
-        
-        <button class="btn btn-share" id="shareBtn">
-            <i class="fab fa-whatsapp"></i> مشاركة البيانات عبر واتساب
-        </button>
-    </div>
-
-    <!-- الفوتر -->
-    <footer class="footer">
-        <div class="copyright">جميع الحقوق البرمجية محفوظة لــ : Abu_Qais@Android.Apk</div>
-        <a href="https://wa.me/+963992771933" target="_blank" class="whatsapp-contact">
-            <i class="fab fa-whatsapp"></i> تواصل للدعم الفني
+<div class="container">
+    <div class="header">
+        <h1><span class="header-icons">✈️</span> خدمة جوازات ليث <span class="header-icons">🛂</span></h1>
+        <a href="https://wa.me/963996250014" class="wa-btn-top">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z"/></svg>
+            تواصل معنا
         </a>
+    </div>
+
+    <div class="form-card" id="captureArea">
+        <div class="watermark">خدمات ليث</div>
+        
+        <div class="input-group">
+            <label>رقم هوية الكفيل</label>
+            <input type="text" class="form-control" id="id_kafil" placeholder="أدخل الرقم">
+        </div>
+        
+        <div class="input-group">
+            <label>رقم الـ 700</label>
+            <input type="number" class="form-control" id="num_700" placeholder="700xxxxxxx">
+        </div>
+
+        <div class="input-group">
+            <label>رقم الإقامة</label>
+            <input type="number" class="form-control" id="iqama" placeholder="أدخل الرقم">
+        </div>
+
+        <div class="input-group">
+            <label>رقم النسخة</label>
+            <input type="number" class="form-control" id="version" placeholder="1, 2...">
+        </div>
+
+        <div class="input-group">
+            <label>ملاحظات</label>
+            <textarea class="form-control" id="notes" rows="2" placeholder="أي تفاصيل إضافية..."></textarea>
+        </div>
+
+        <div id="stamp" class="stamp-box">
+            <h3 style="margin:0">تم الاعتماد ✅</h3>
+            <div style="font-size:0.8rem; margin:5px 0">
+                <span id="date-hj"></span><br>
+                <span id="date-gr"></span>
+            </div>
+            <div style="font-size:0.7rem">تأكد من البيانات، نحن غير مسؤولين عن الخطأ</div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn btn-confirm" onclick="approve()">✅ تم الاعتماد</button>
+        <button class="btn btn-save" id="btnSave" onclick="saveImage()">📸 حفظ الصورة</button>
+        <button class="btn btn-share" id="btnShare" onclick="shareWa()">📤 مشاركة واتساب</button>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة لـ: <a href="mailto:Abu_Qais@Android.Apk">Abu_Qais</a></p>
+        <div style="margin-top:10px">
+            <a href="https://wa.me/963992771933" style="font-size:1.5rem">💬</a>
+        </div>
     </footer>
+</div>
 
-    <!-- مكتبات مساعدة -->
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script>
-        // إنشاء العناصر المتحركة في الخلفية
-        function createAnimatedIcons() {
-            const container = document.getElementById('animationsContainer');
-            const icons = ['fa-passport', 'fa-plane', 'fa-globe', 'fa-id-card', 'fa-flag', 'fa-suitcase-rolling', 'fa-shield-alt', 'fa-paper-plane'];
-            
-            for (let i = 0; i < 15; i++) {
-                const icon = document.createElement('i');
-                icon.className = `animation-icon fas ${icons[Math.floor(Math.random() * icons.length)]}`;
-                
-                // وضع عشوائي للعنصر
-                const left = Math.random() * 100;
-                const top = Math.random() * 100;
-                const size = 20 + Math.random() * 40;
-                const delay = Math.random() * 20;
-                const duration = 20 + Math.random() * 30;
-                
-                icon.style.left = `${left}%`;
-                icon.style.top = `${top}%`;
-                icon.style.fontSize = `${size}px`;
-                icon.style.animation = `float ${duration}s linear ${delay}s infinite`;
-                
-                container.appendChild(icon);
-            }
-        }
+<!-- تثبيت التطبيق -->
+<div class="install-prompt" id="installPrompt">
+    <div>
+        <div style="font-weight:bold">تطبيق جوازات ليث</div>
+        <div style="font-size:0.8rem; opacity:0.8">ثبته على هاتفك للعمل بدون نت</div>
+    </div>
+    <button class="install-btn" onclick="installApp()">تثبيت</button>
+</div>
 
-        // إنشاء التواريخ الميلادية فقط
-        function getDates() {
-            const now = new Date();
-            
-            // اسم اليوم
-            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-            const dayName = days[now.getDay()];
-            document.getElementById('dayName').textContent = `اليوم: ${dayName}`;
-            
-            // التاريخ الميلادي بصيغة أرقام فقط
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = now.getFullYear();
-            
-            const gregorianDate = `${day}-${month}-${year}`;
-            document.getElementById('gregorianDate').textContent = `التاريخ: ${gregorianDate}`;
-            
-            return { dayName, gregorianDate };
-        }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-        // التحقق من صحة البيانات المدخلة (أرقام فقط)
-        function validateInputs() {
-            const inputs = [
-                { id: 'sponsorId', name: 'رقم هوية الكفيل' },
-                { id: 'number700', name: 'رقم الـ 700' },
-                { id: 'residenceNumber', name: 'رقم الإقامة' },
-                { id: 'copyNumber', name: 'رقم النسخة' }
-            ];
-            
-            let isValid = true;
-            
-            for (const input of inputs) {
-                const element = document.getElementById(input.id);
-                const value = element.value.trim();
-                
-                if (!value) {
-                    alert(`يرجى إدخال ${input.name}`);
-                    element.focus();
-                    isValid = false;
-                    break;
-                }
-                
-                if (!/^\d+$/.test(value)) {
-                    alert(`يرجى إدخال أرقام فقط في حقل ${input.name}`);
-                    element.focus();
-                    isValid = false;
-                    break;
-                }
-            }
-            
-            return isValid;
-        }
-
-        // عرض ختم الاعتماد في منتصف الصفحة
-        function showApprovalStamp() {
-            const stamp = document.getElementById('approvalStamp');
-            
-            // إظهار الختم في منتصف الصفحة
-            stamp.style.display = 'flex';
-            
-            // إظهار أزرار الإضافية
-            document.getElementById('captureBtn').style.display = 'flex';
-            document.getElementById('shareBtn').style.display = 'flex';
-        }
-
-        // التقاط صورة للنموذج بدون حدود
-        async function captureForm() {
-            try {
-                // طلب إذن الوصول للتخزين
-                if (confirm('لحفظ الصورة، يرجى منح التطبيق صلاحية الوصول إلى الصور والتخزين. هل تريد المتابعة؟')) {
-                    const formContainer = document.getElementById('formContainer');
-                    
-                    // إضافة كلاس لإخفاء الحدود أثناء التقاط الصورة
-                    formContainer.classList.add('capture-mode');
-                    
-                    // إظهار العلامات المائية الإضافية
-                    document.getElementById('additionalWatermark').style.display = 'block';
-                    
-                    // استخدام html2canvas لالتقاط صورة للحاوية
-                    const canvas = await html2canvas(formContainer, {
-                        scale: 2,
-                        useCORS: true,
-                        backgroundColor: '#ffffff',
-                        logging: false,
-                        removeContainer: true,
-                        allowTaint: true
-                    });
-                    
-                    // إزالة كلاس إخفاء الحدود بعد التقاط الصورة
-                    formContainer.classList.remove('capture-mode');
-                    
-                    // إخفاء العلامات المائية الإضافية
-                    document.getElementById('additionalWatermark').style.display = 'none';
-                    
-                    // تحويل Canvas إلى صورة
-                    const imgData = canvas.toDataURL('image/png');
-                    
-                    // إنشاء رابط لتنزيل الصورة
-                    const link = document.createElement('a');
-                    link.href = imgData;
-                    link.download = `نموذج_المهني_المربوط_${Date.now()}.png`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    alert('تم حفظ الصورة بنجاح! تأكد من فتح الصورة المحفوظة.');
-                }
-            } catch (error) {
-                console.error('حدث خطأ أثناء حفظ الصورة:', error);
-                alert('حدث خطأ أثناء حفظ الصورة. يرجى المحاولة مرة أخرى.');
-                
-                // التأكد من إزالة كلاس إخفاء الحدود في حالة الخطأ
-                const formContainer = document.getElementById('formContainer');
-                formContainer.classList.remove('capture-mode');
-                
-                // إخفاء العلامات المائية الإضافية
-                document.getElementById('additionalWatermark').style.display = 'none';
-            }
-        }
-
-        // مشاركة البيانات عبر واتساب
-        function shareViaWhatsApp() {
-            const sponsorId = document.getElementById('sponsorId').value;
-            const number700 = document.getElementById('number700').value;
-            const residenceNumber = document.getElementById('residenceNumber').value;
-            const copyNumber = document.getElementById('copyNumber').value;
-            const notes = document.getElementById('notes').value;
-            
-            const message = `بيانات المهني المربوط:
-رقم هوية الكفيل: ${sponsorId}
-رقم الـ 700: ${number700}
-رقم الإقامة: ${residenceNumber}
-رقم النسخة: ${copyNumber}
-ملاحظات: ${notes}
-
-تم إدخال البيانات عبر منصة ليث لجميع الخدمات الالكترونية`;
-            
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/+963996250014?text=${encodedMessage}`;
-            
-            window.open(whatsappUrl, '_blank');
-        }
-
-        // تهيئة الصفحة عند التحميل
-        document.addEventListener('DOMContentLoaded', function() {
-            // إنشاء الرسوم المتحركة في الخلفية
-            createAnimatedIcons();
-            
-            // إعداد التواريخ
-            getDates();
-            
-            // منع إدخال غير الأرقام في الحقول المحددة
-            const numericInputs = ['sponsorId', 'number700', 'residenceNumber', 'copyNumber'];
-            numericInputs.forEach(id => {
-                const input = document.getElementById(id);
-                input.addEventListener('input', function() {
-                    this.value = this.value.replace(/\D/g, '');
-                });
-            });
-            
-            // ربط الأحداث بالأزرار
-            document.getElementById('approveBtn').addEventListener('click', function() {
-                if (validateInputs()) {
-                    showApprovalStamp();
-                }
-            });
-            
-            document.getElementById('captureBtn').addEventListener('click', captureForm);
-            document.getElementById('shareBtn').addEventListener('click', shareViaWhatsApp);
-            
-            // إضافة تأثير عند تمرير الماوس على الحقول
-            const inputFields = document.querySelectorAll('.input-field');
-            inputFields.forEach(field => {
-                field.addEventListener('focus', function() {
-                    this.parentElement.style.transform = 'translateY(-5px)';
-                    this.parentElement.style.transition = 'transform 0.3s';
-                });
-                
-                field.addEventListener('blur', function() {
-                    this.parentElement.style.transform = 'translateY(0)';
-                });
-            });
+<script>
+    // 1. منطق Service Worker والـ PWA
+    let deferredPrompt;
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js');
         });
-    </script>
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installPrompt').classList.add('show');
+    });
+
+    async function installApp() {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                document.getElementById('installPrompt').classList.remove('show');
+            }
+            deferredPrompt = null;
+        }
+    }
+
+    // 2. منطق التطبيق
+    function approve() {
+        const inputs = document.querySelectorAll('input');
+        let valid = true;
+        inputs.forEach(i => { if(!i.value) valid = false; });
+        
+        if(!valid) return alert('يرجى تعبئة جميع الحقول!');
+
+        // التواريخ
+        const now = new Date();
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+        document.getElementById('date-gr').innerText = "ميلادي: " + now.toLocaleDateString('ar-SA', options);
+        document.getElementById('date-hj').innerText = "هجري: " + now.toLocaleDateString('ar-SA-u-ca-islamic', options);
+
+        // إظهار الختم ومكان عشوائي
+        const stamp = document.getElementById('stamp');
+        stamp.style.display = 'block';
+        stamp.style.top = (Math.random() * 40 + 20) + '%'; 
+        stamp.style.right = (Math.random() * 20 + 10) + '%';
+
+        // إظهار الأزرار
+        document.getElementById('btnSave').style.display = 'flex';
+        document.getElementById('btnShare').style.display = 'flex';
+        document.querySelector('.btn-confirm').style.display = 'none';
+        
+        // تعطيل الحقول
+        inputs.forEach(i => i.disabled = true);
+        document.querySelector('textarea').disabled = true;
+    }
+
+    async function saveImage() {
+        const element = document.getElementById('captureArea');
+        const canvas = await html2canvas(element, { scale: 2, backgroundColor: '#ffffff' });
+        const link = document.createElement('a');
+        link.download = `Laith-Passport-${Date.now()}.png`;
+        link.href = canvas.toDataURL();
+        link.click();
+    }
+
+    async function shareWa() {
+        const element = document.getElementById('captureArea');
+        try {
+            const canvas = await html2canvas(element, { scale: 2 });
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], "passport.png", { type: "image/png" });
+                
+                // إذا المتصفح يدعم المشاركة
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        files: [file],
+                        title: 'خدمة جوازات ليث',
+                        text: 'تم اعتماد البيانات ✅'
+                    });
+                } else {
+                    //Fallback: إرسال النص فقط
+                    const note = document.getElementById('notes').value;
+                    const url = `https://wa.me/963996250014?text=${encodeURIComponent('تم اعتماد طلب جديد: ' + note)}`;
+                    window.open(url, '_blank');
+                }
+            });
+        } catch (err) {
+            console.error(err);
+            alert('حدث خطأ في المشاركة، سيتم تحويلك للمحادثة النصية');
+            window.open('https://wa.me/963996250014', '_blank');
+        }
+    }
+</script>
+
 </body>
 </html>
